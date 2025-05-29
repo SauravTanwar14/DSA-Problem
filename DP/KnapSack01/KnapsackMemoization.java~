@@ -1,0 +1,24 @@
+package DP.KnapSack01;
+
+public class KnapsackMemoization {
+
+    static int dp[][];
+
+    public static int knapsack(int W, int [] weights,int [] values,int n){
+        if(n==0 || W==0){
+            return 0;
+        }
+
+        if(dp[n][W] != -1)
+            return dp[n][W];
+
+        if(weights[n-1]> W){
+            return dp[n][W] = knapsack(W,weights,values,n-1);
+        }
+
+        return dp[n][W] = Math.max(
+                values[n - 1] + knapsack(W - weights[n - 1], weights, values, n - 1),
+                knapsack(W, weights, values, n - 1)
+        );
+    }
+}

@@ -1,0 +1,43 @@
+package Hashing;
+
+import java.util.HashMap;
+
+public class SubarrayZeroSumPrint {
+    public static void findZeroSumSubarray(int[] arr) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum=0;
+        for(int i=0;i<arr.length;i++){
+            sum += arr[i];
+
+            if(sum==0){
+                System.out.println("Subarray found from index 0 to " + i);
+                printArrray(arr,0,i);
+                return;
+            }
+
+            if(map.containsKey(sum)){
+                int prevIndex = map.get(sum);
+                System.out.println("Subarray found from index " + (prevIndex+1) + " to " + i);
+                printArrray(arr,prevIndex,i);
+                return;
+            }
+            map.put(sum,i);
+        }
+        System.out.println("No subarray with zero sum exists.");
+    }
+
+    private static void printArrray(int[] arr, int start, int end) {
+        for(int i=start;i<=end;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+    }
+    public static void main(String[] args) {
+        int[] arr = {4, 2, -3, 1, 6};
+        findZeroSumSubarray(arr);
+
+        int[] arr2 = {1, 2, 3};
+        findZeroSumSubarray(arr2);
+    }
+}

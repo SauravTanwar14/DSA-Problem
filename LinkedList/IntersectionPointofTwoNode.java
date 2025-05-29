@@ -1,0 +1,129 @@
+package LinkedList;
+
+import java.util.HashSet;
+
+public class IntersectionPointofTwoNode {
+
+    static Node head1, head2;
+
+    //using hashing->we use hashset to find intersection point
+    public static int getIntersection(Node h1,Node h2){
+        HashSet<Node> set = new HashSet<>();
+        Node curr = h1;
+        while(curr!=null){
+            set.add(curr);
+            curr = curr.next;
+        }
+        curr =  h2;
+        while(curr!=null){
+            if(set.contains(curr)){
+                return curr.data;
+            }
+            curr = curr.next;
+        }
+
+        return -1;
+    }
+
+    //2nd approach ->simple using linkedlist
+    static int getNode()
+    {
+        int c1 = getCount(head1);
+        int c2 = getCount(head2);
+        int d;
+
+        if (c1 > c2) {
+            d = c1 - c2;
+            return _getIntesectionNode(d, head1, head2);
+        }
+        else {
+            d = c2 - c1;
+            return _getIntesectionNode(d, head2, head1);
+        }
+    }
+
+    static int _getIntesectionNode(int d, Node node1, Node node2)
+    {
+        int i;
+        Node current1 = node1;
+        Node current2 = node2;
+        for (i = 0; i < d; i++) {
+            if (current1 == null) {
+                return -1;
+            }
+            current1 = current1.next;
+        }
+        while (current1 != null && current2 != null) {
+            if (current1.data == current2.data) {
+                return current1.data;
+            }
+            current1 = current1.next;
+            current2 = current2.next;
+        }
+
+        return -1;
+    }
+
+    static int getCount(Node node)
+    {
+        Node current = node;
+        int count = 0;
+
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+
+        return count;
+    }
+
+    public static void main(String args[])
+    {
+        /*
+    		Creation of two linked lists
+
+    		1st 3->6->9->15->30
+    		2nd 10->15->30
+
+    		15 is the intersection point
+    	*/
+
+        Node newNode;
+
+        Node head1 = new Node(10);
+
+        Node head2 = new Node(3);
+
+        newNode = new Node(6);
+        head2.next = newNode;
+
+        newNode = new Node(9);
+        head2.next.next = newNode;
+
+        newNode = new Node(15);
+        head1.next = newNode;
+        head2.next.next.next = newNode;
+
+        newNode = new Node(30);
+        head1.next.next = newNode;
+
+        head1.next.next.next = null;
+
+        System.out.print(getIntersection(head1, head2));
+
+
+
+        System.out.println("Second approach using simple linkedlist");
+         head1 = new Node(3);
+       head1.next = new Node(6);
+        head1.next.next = new Node(9);
+        head1.next.next.next = new Node(15);
+        head1.next.next.next.next = new Node(30);
+
+        head2 = new Node(10);
+        head2.next = new Node(15);
+        head2.next.next = new Node(30);
+
+        System.out.println(getNode());
+    }
+}
