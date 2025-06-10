@@ -1,0 +1,79 @@
+package Graph;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+class Book {
+    int id;
+    String title;
+    String author;
+
+    public Book(int id,
+    String title,
+    String author){
+
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+}
+
+class User{
+
+        int id;
+       String name;
+
+       public User(int id, String name){
+           this.id=id;
+           this.name = name;
+       }
+}
+
+class Operation{
+    Map<Integer,Book> books = new HashMap<>();
+    Map<Integer,User> users = new HashMap<>();
+    Map<Integer, Set<Integer>> borrowedBooks = new HashMap<>();
+
+    //add the books
+    public void addBook(Book book){
+        books.put(book.id,book);
+    }
+
+    //register user
+    public void registerUser(User user){
+        users.put(user.id,user);
+    }
+
+    //
+    public  boolean borrowBook(int userId, int bookId){
+        if(!books.containsKey(bookId)|| !users.containsKey(userId)){
+            return  false;
+        }
+        borrowedBooks.put(userId,new HashSet<>());
+        Set<Integer> userBooks = borrowedBooks.get(userId);
+
+        if(userBooks.contains(bookId)){
+            return  false;
+        }
+
+        userBooks.add(bookId);
+        return true;
+    }
+
+    public void returnBook(int userId,int bookId){
+        if(borrowedBooks.containsKey(userId)){
+            borrowedBooks.get(userId).remove(bookId);
+        }
+    }
+
+}
+
+public class Library{
+    public static void main(String[] args) {
+        Operation op = new Operation();
+        op.addBook(new Book(1,"Java","Complete refernce"));
+        op.addBook(new Book(2,"C++","BalagurSwamy"));
+    }
+}
